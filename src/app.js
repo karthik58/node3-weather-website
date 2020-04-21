@@ -5,7 +5,6 @@ const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
 const app = express()
-
 const port = process.env.PORT || 3000
 
 // Define  paths for Express config
@@ -42,49 +41,22 @@ app.get('/help', (req, res) => {
     })
 })
 
-app.get('', (req, res) => {
-
-    res.send('<h1>hi hey hello</h1>')
-
-})
-
-app.get('/help', (req, res) => {
-    res.send([{
-        name: 'Karthik',
-        age: 25
-    },
-    {
-        name: 'Karthik',
-        age: 25
-    },
-    {
-        name: 'Karthik',
-        age: 25
-    },
-    ])
-})
-
-app.get('/about', (req, res) => {
-    res.send('<h1>Weather</h1>')
-})
-
 app.get('/weather', (req, res) => {
-
-    if(!req.query.address){
+    if (!req.query.address) {
         return res.send({
-            error: 'provide search term'
+            error: 'provide address'
         })
     }
 
-    geocode(req.query.address, (error, {latitude, longitude, location} = {}) => {
-        if(error){
-            return res.send({error})
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+        if (error) {
+            return res.send({ error })
         }
 
         forecast(latitude, longitude, (error, forecastData) => {
 
-            if(error){
-              return console.log(error)
+            if (error) {
+                return console.log(error)
             }
 
             res.send({
@@ -92,15 +64,13 @@ app.get('/weather', (req, res) => {
                 location,
                 address: req.query.address
             })
-      
-          })
+        })
     })
-    
 })
 
-app.get('/products', (req, res) =>{
-    
-    if(!req.query.search){
+app.get('/products', (req, res) => {
+
+    if (!req.query.search) {
         return res.send({
             error: 'provide search term'
         })
